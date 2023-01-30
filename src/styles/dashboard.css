@@ -1,0 +1,9 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 100;
+    /* border: 1px solid red; */
+}
+
+
+
