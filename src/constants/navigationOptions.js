@@ -24,7 +24,7 @@ export const navigationOptions = [
     path: "/couponcode",
   },
   {
-    name: "Create Alert",
+    name: "Create Promo",
     path: "/createalert",
   }, 
   

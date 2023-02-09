@@ -4,7 +4,7 @@ import axios from 'axios';
 import LoadingSpinner from "../components/LoadingSpinner";
 import filterImage from "../assets/filterImage.png";
 import "../styles/bookingDetails.css";
-import "../styles/table.css";import { HiDotsHorizontal } from "react-icons/hi";
+import "../styles/table.css"; import { HiDotsHorizontal } from "react-icons/hi";
 import { useContext } from "react";
 import { IoPencil } from "react-icons/io5";
 import { IoStarSharp } from "react-icons/io5";
@@ -23,6 +23,9 @@ export default function CreateAlert() {
   const [titleData, setTitleData] = useState("");
   const [bodyData, setBodyData] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setimage] = useState("");
+
+  const changeimage = (e) => setimage(e.target.files[0]);
 
   const SendNotification = async () => {
     setIsLoading(true);
@@ -36,7 +39,7 @@ export default function CreateAlert() {
 
     await axios.post('https://fcm.googleapis.com/fcm/send', data, {
       headers: {
-        'Authorization': 'key=AAAA8sCkv1U:APA91bEAxbnwAtCYNSldYKJpp3WFVok4g2HYl4Hcs7OgtVBqqCUiIB0-pTPmbsr9a6gko1hUdechpzcwiAzSEfSfjxv7CMeZ1iV4laRLywizbsOGuHxl_jyXKwaDUVQqq-h7iassCbBL', 
+        'Authorization': 'key=AAAA8sCkv1U:APA91bEAxbnwAtCYNSldYKJpp3WFVok4g2HYl4Hcs7OgtVBqqCUiIB0-pTPmbsr9a6gko1hUdechpzcwiAzSEfSfjxv7CMeZ1iV4laRLywizbsOGuHxl_jyXKwaDUVQqq-h7iassCbBL',
         'Content-Type': 'application/json'
       }
     }).then(function (response) {
@@ -46,13 +49,13 @@ export default function CreateAlert() {
       setTitleData("")
       alert("Message Sent Successfully")
     })
-    .catch(function (error) {
-      console.log("erorrrrrrrrr")
-      console.log(error);
-      setBodyData("")
-      setTitleData("")
-      alert("Message Not Sent")
-    });
+      .catch(function (error) {
+        console.log("erorrrrrrrrr")
+        console.log(error);
+        setBodyData("")
+        setTitleData("")
+        alert("Message Not Sent")
+      });
 
     setIsLoading(false);
 
@@ -84,68 +87,82 @@ export default function CreateAlert() {
       <div className="users ">
         <div className="flexing">
           <h2>Create Promo</h2>
-        </div>
-        <div className="search-bar">
-          <IoIosListBox className="icon" />
-          <input
-            value={titleData}
-            onChange={(e) => setTitleData(e.target.value)}
-            placeholder="Enter Title here"
-          />
-        </div>
-        <br></br>
 
+        </div>
         <div style={{
-          borderColor: "#20D581",
-          border: "1px solid #20D581",
-          padding: "20px",
-          borderRadius: "10px",
-          width : "85%",
+          flexDirection: "row",
           display: "flex",
-          alignItems: "center"
-          
-            }}>
-          <div
+          justifyContent: "space-between",
+          paddingRight: "120px",
+          height: "50px",
+          alignItems: "center",
+        }}>
+          <div className="search-bar" style={{
+            width: "80%"
+          }}>
+
+
+            <IoIosListBox className="icon" />
+            <input
+              value={titleData}
+              onChange={(e) => setTitleData(e.target.value)}
+              placeholder="Enter Title here"
+            />
+          </div>
+
+          <select
             style={{
-              height: "fit-content",
-              width: "fit-content",
-              borderRadius: 25,
+              color: "black",
+              backgroundColor: "#20d582",
+              borderRadius: "10px",
+              padding: "10px",
+            }}
+            onChange={(e) => {
+              // if (e.target.value == "All") {
+              //   setLocation("");
+              // } else {
+              //   setLocation(e.target.value);
+              // }
             }}
           >
-            
-          <IoIosListBox style = {{
-          color: "white",
-          height : "25",
-          width : "25"
-          }}/>
-            {/* <HiLocationMarker className="icon" /> Location: All
-          <AiFillCaretDown className="icon small" /> */}
-            {/* <label className="block mx-2 text-sm font-medium" style={{
-              color: "white"
-            }}>
-              {" "}
-              Type:{" "}
-            </label> */}
-            <select
-              style={{
-                color: "black",
-                backgroundColor: ""
-              }}
-              onChange={(e) => {
-                // if (e.target.value == "All") {
-                //   setLocation("");
-                // } else {
-                //   setLocation(e.target.value);
-                // }
-              }}
-            >
-              <option>Main Promo</option>
-              <option>Small Promo</option>
-              <option>Secondary Promo</option>
-              
-            </select>
-          </div>
+            <option>Main Promo</option>
+            <option>Special Promo</option>
+            <option>Highlight Promo</option>
+
+          </select>
         </div>
+
+        <br></br>
+
+        <div className="field" style={{
+          flexDirection: "row",
+          display: "flex",
+          width: "15%",
+          alignItems: "center",
+          justifyContent: "start"
+        }}>
+          {image != "" ? <p style={{ color: "white" }}>{image.name}</p> : <p style={{ color: "white" }}>Select Image</p>}
+
+          <label for="file">
+
+            <IoPencil className="icon" style={{
+              color: "white",
+              paddingLeft: "10px"
+            }} />
+            <input
+              type="file"
+              onChange={changeimage}
+              id="file"
+              style={{ display: "none" }}
+            />
+          </label>
+        </div>
+
+
+
+
+        <br></br>
+
 
 
         {/* <div className="search-bar">
@@ -156,16 +173,16 @@ export default function CreateAlert() {
             placeholder="Enter Notification here"
           />
         </div> */}
-        
-          
-        <button style={{cursor:'pointer'}} className="add-user-btn" onClick={SendNotification}>
-            Create Promo
-          </button>
+
+
+        <button style={{ cursor: 'pointer' }} className="add-user-btn" onClick={SendNotification}>
+          Create Promo
+        </button>
 
 
       </div>
 
-      {isLoading ? <LoadingSpinner style={{justifyContent:"center"}} /> : null}
+      {isLoading ? <LoadingSpinner style={{ justifyContent: "center" }} /> : null}
     </>
   );
 }
