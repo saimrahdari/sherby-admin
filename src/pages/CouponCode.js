@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext, useGlobalState } from "../contexts/globalState";
 import {
@@ -11,7 +12,7 @@ import {
 import { db } from "../firebase";
 import { AiFillCaretDown } from "react-icons/ai";
 import Modal from "../components/Modal";
-import CategoryItem from "../components/CategoryItem";
+import CouponItem from "../components/CouponItem";
 import TableHeader from "../components/TableHeader";
 import ProfilePicture from "../components/ProfilePicture";
 import InputField from "../components/InputField";
@@ -19,16 +20,13 @@ import "../styles/categories.css";
 import { FaWindows } from "react-icons/fa";
 import LoadingSpinner from "../components/LoadingSpinner";
 import filterImage from "../assets/filterImage.png";
-const Categories = (props) => {
+const CouponCode = (props) => {
   const {
-    categories,
-    addCategory,
-    addSubcategory,
-    updatecategory,
-    deletecategory,
+    coupons,
+    addCoupons,
+    updatecoupon,
+    deletecoupon,
   } = useGlobalState();
-  const { locations } = useContext(GlobalContext);
-  const [location, setLocation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
   const [showCatModal, setShowCatModal] = useState(false);
@@ -55,7 +53,7 @@ const Categories = (props) => {
   const updateType = (e) => setType(e.target.value);
   const updateprice = (e) => setprice(e.target.value);
 
-  const addNewCategory = async () => {
+  const addNewCoupon = async () => {
     setIsLoading(true);
     const newCategory = {
       data: {
@@ -69,56 +67,36 @@ const Categories = (props) => {
      
       //Add new
       const category = await addDoc(
-        collection(db, "category"),
+        collection(db, "couponcodes"),
         newCategory.data
       );
       setName("");
       setType("");
       hideCatModal();
       newCategory.id = category.id;
-      addCategory(newCategory);
+      addCoupons(newCategory);
     } catch (err) {
       console.log(err);
     }
     setIsLoading(false);
+    
   };
 
-  const Addsubcat = async () => {
-    setIsLoading(true);
-    console.log(uid);
-    const ref = doc(db, "category", uid);
-    let index = {
-      name: name,
-      price:price,
-      pic: "https://firebasestorage.googleapis.com/v0/b/salon-app-dd380.appspot.com/o/download%20(1).png?alt=media&token=25d7499c-7cd9-4ad0-878b-322d40de95d1"
-    };
-    try {
-      const subcategory =    await updateDoc(ref, {
-        subcategories: arrayUnion(index)
-      });
-window.location.reload(true)
-    } catch (err) {
-      console.log(err);
-    }
 
-    hideSubModal();
-    setIsLoading(false);
-  };
-
-  const deleteCatData = async (id) => {
+  const deleteCouponData = async (id) => {
     setIsLoading(true);
     console.log("moix");
-    const ref = doc(db, "category", id);
+    const ref = doc(db, "couponcodes", id);
     try {
       const del = await deleteDoc(ref);
 
-      deletecategory(id);
+      deletecoupon(id);
     } catch (err) {
       console.log(err);
     }
     setIsLoading(false);
   };
-  console.log(categories);
+  console.log("Couponss", coupons);
 
   return (
     <div className="categories">
@@ -146,14 +124,11 @@ window.location.reload(true)
             changeHandler={updateprice}
           />
         </div>
-        <button className="update-stylist-detail" style={{cursor:'pointer'}} onClick={Addsubcat}>
-          Update
-        </button>
-        {isLoading ? <LoadingSpinner /> : Categories}
+        {isLoading ? <LoadingSpinner /> : CouponCode}
       </Modal>
 
       <Modal
-        title="Adding New Category"
+        title="Add New Coupon Code"
         show={showCatModal}
         hideModal={hideCatModal}
         contentStyle={{ height: "350px" }}
@@ -165,13 +140,13 @@ window.location.reload(true)
         <div className="input-container ">
           <InputField
             fieldStyle={{ height: "30px" }}
-            placeholder="Category Name"
+            placeholder="Coupon Code"
             value={name}
             changeHandler={updateName}
           />
           <InputField
             fieldStyle={{ height: "30px" }}
-            placeholder="Enter Type"
+            placeholder="Coupon Type"
             value={type}
             changeHandler={updateType}
           />
@@ -179,15 +154,15 @@ window.location.reload(true)
         <button
           className="update-stylist-detail"
           style={{ margin: "10px 20px" ,cursor:'pointer'}}
-          onClick={addNewCategory}
+          onClick={addNewCoupon}
         
         >
           Update
         </button>
-        {isLoading ? <LoadingSpinner /> : Categories}
+        {isLoading ? <LoadingSpinner /> : CouponCode}
       </Modal>
       <div className="table-header" style={{ width: "850px" }}>
-        <h2>Categories</h2>
+        <h2>Coupon Codes</h2>
 
         <div className="container">
           <div
@@ -221,21 +196,21 @@ window.location.reload(true)
         </div>
       </div>
       {/* <TableHeader title="Categories" style={{ width: "850px" }} /> */}
-      {categories.map((item) => {
+      {coupons.map((item) => {
         return (
-          <CategoryItem
+          <CouponItem
             item={item}
             showModal={updateShowSubModal}
-            deletecarmodel={deleteCatData}
+            deletecarmodel={deleteCouponData}
           />
         );
       })}
 
       <div className="add-category-btn"  style={{cursor:'pointer'}} onClick={updateShowCatModal}>
-        <span >Add Category</span>
+        <span >Add Coupon Code</span>
       </div>
     </div>
   );
 };
 
-export default Categories;
+export default CouponCode;

@@ -2,6 +2,21 @@ import React, { useState, useEffect } from "react";
 import { IoIosListBox } from "react-icons/io";
 import axios from 'axios';
 import LoadingSpinner from "../components/LoadingSpinner";
+import filterImage from "../assets/filterImage.png";
+import "../styles/bookingDetails.css";
+import "../styles/table.css";import { HiDotsHorizontal } from "react-icons/hi";
+import { useContext } from "react";
+import { IoPencil } from "react-icons/io5";
+import { IoStarSharp } from "react-icons/io5";
+import { FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import "../styles/table.css";
+import { HiLocationMarker } from "react-icons/hi";
+import { AiFillCaretDown } from "react-icons/ai";
+import "../styles/bookingDetails.css";
+import { GlobalContext } from "../contexts/globalState";
+import BookingDetails from "../pages/BookingDetails";
+
 
 export default function CreateAlert() {
 
@@ -68,7 +83,7 @@ export default function CreateAlert() {
     <>
       <div className="users ">
         <div className="flexing">
-          <h2>Create Alert</h2>
+          <h2>Create Promo</h2>
         </div>
         <div className="search-bar">
           <IoIosListBox className="icon" />
@@ -79,18 +94,72 @@ export default function CreateAlert() {
           />
         </div>
         <br></br>
-        <div className="search-bar">
+
+        <div style={{
+          borderColor: "#20D581",
+          border: "1px solid #20D581",
+          padding: "20px",
+          borderRadius: "10px",
+          width : "85%",
+          display: "flex",
+          alignItems: "center"
+          
+            }}>
+          <div
+            style={{
+              height: "fit-content",
+              width: "fit-content",
+              borderRadius: 25,
+            }}
+          >
+            
+          <IoIosListBox style = {{
+          color: "white",
+          height : "25",
+          width : "25"
+          }}/>
+            {/* <HiLocationMarker className="icon" /> Location: All
+          <AiFillCaretDown className="icon small" /> */}
+            {/* <label className="block mx-2 text-sm font-medium" style={{
+              color: "white"
+            }}>
+              {" "}
+              Type:{" "}
+            </label> */}
+            <select
+              style={{
+                color: "black",
+                backgroundColor: ""
+              }}
+              onChange={(e) => {
+                // if (e.target.value == "All") {
+                //   setLocation("");
+                // } else {
+                //   setLocation(e.target.value);
+                // }
+              }}
+            >
+              <option>Main Promo</option>
+              <option>Small Promo</option>
+              <option>Secondary Promo</option>
+              
+            </select>
+          </div>
+        </div>
+
+
+        {/* <div className="search-bar">
           <IoIosListBox className="icon" />
           <input
             value={bodyData}
             onChange={(e) => setBodyData(e.target.value)}
             placeholder="Enter Notification here"
           />
-        </div>
+        </div> */}
         
           
         <button style={{cursor:'pointer'}} className="add-user-btn" onClick={SendNotification}>
-            Send Notification
+            Create Promo
           </button>
 
 

@@ -6,6 +6,7 @@ import combineReducers from "react-combine-reducers";
 import locationReducer from "./locationReducer";
 import stylistsReducer from "./stylistsReducer";
 import categoriesReducer from "./categoriesReducer";
+import couponReducer from "./couponReducer";
 import adminReducer from "./adminReducer";
 import pendingBookingsReducer from "./pendingBookingsReducer";
 import upcomingBookingsReducer from "./upcomingBookingsReducer";
@@ -27,6 +28,10 @@ const initialCategories = {
   categories: [],
 };
 
+const initialCoupons = {
+  coupons: [],
+};
+
 const initialStatePendingBooking = {
   pending_bookings: [],
 };
@@ -46,10 +51,10 @@ const [rootReducer, initialState] = combineReducers({
   locationsState: [locationReducer, initialStateLocations],
   stylistsState: [stylistsReducer, initialStateStylists],
   categoriesState: [categoriesReducer, initialCategories],
+  couponsState: [couponReducer, initialCoupons],
   pendingBookingsState: [pendingBookingsReducer, initialStatePendingBooking],
   upcomingBookingsState: [upcomingBookingsReducer, initialStateUpcomingBooking],
   completedBookingsState: [completedBookingsReducer, initialStateCompletedBooking],
-
 });
 
 export const GlobalProvider = (props) => {
@@ -77,6 +82,7 @@ export const GlobalProvider = (props) => {
       const locationData = await getDocs(collection(db, "location"));
       const stylistsData = await getDocs(collection(db, "stylist"));
       const categoriesData = await getDocs(collection(db, "category"));
+      const couponsData = await getDocs(collection(db, "couponcodes"));
       const qpending = query(collection(db, "upcoming_bookings"), where("isApprroved", "==", 0));
       const pendingBookingsData = await getDocs(qpending);
       const qupcomingbooking = query(collection(db, "upcoming_bookings"), where("isApprroved", "==", 1));
@@ -97,6 +103,10 @@ export const GlobalProvider = (props) => {
       dispatch({
         type: "INITIALIZE_CATEGORIES_DATA",
         data: categoriesData,
+      });
+      dispatch({
+        type: "INITIALIZE_COUPON_DATA",
+        data: couponsData,
       });
       dispatch({
         type: "INITIALIZE_PENDING_BOOKINGS_DATA",
@@ -153,6 +163,14 @@ export const GlobalProvider = (props) => {
     });
   };
 
+  const addCoupon = (item) => {
+    dispatch({
+      type: "ADD_COUPON",
+      newItem: item,
+    });
+  };
+
+
   const addSubcategory = ( item) => {
     dispatch({
       type: "ADD_SUBCATEGORY",
@@ -169,12 +187,30 @@ export const GlobalProvider = (props) => {
     });
   };
 
+  const updatecoupon = (id, name, cattype) => {
+    dispatch({
+      type: "UPDATE_COUPON",
+      id: id,
+      name: name,
+      cattype:cattype
+    });
+  };
+
+
   const deletecategory = (id) => {
     dispatch({
       type: "DELETE_CATEGORY",
       id: id,
     });
   };
+
+  const deletecoupon = (id) => {
+    dispatch({
+      type: "DELETE_COUPON",
+      id: id,
+    });
+  };
+
   const updatesubcategory = (id, name,price) => {
     dispatch({
       type: "UPDATE_SUBCATEGORY",
@@ -199,6 +235,7 @@ export const GlobalProvider = (props) => {
         locations: state.locationsState.locations,
         stylists: state.stylistsState.stylists,
         categories: state.categoriesState.categories,
+        coupons: state.couponsState.coupons,
         pendingBookings: state.pendingBookingsState.pending_bookings,
         upcomingBookings: state.upcomingBookingsState.upcoming_bookings,
         completedBookings: state.completedBookingsState.completed_bookings,
@@ -207,12 +244,14 @@ export const GlobalProvider = (props) => {
         updateStylist,
         deleteStylist,
         addCategory,
+        addCoupon,
         addSubcategory,
         updatecategory,
+        updatecoupon, 
         deletecategory,
+        deletecoupon,
         updatesubcategory,
         deletesubcategory,
-       
       }}
    
     >

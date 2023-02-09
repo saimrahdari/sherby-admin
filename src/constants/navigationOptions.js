@@ -4,7 +4,7 @@ export const navigationOptions = [
     path: "/dashboard",
   },
   {
-    name: "Products",
+    name: "Posts",
     path: "/pending-bookings",
   },
   {
@@ -18,10 +18,14 @@ export const navigationOptions = [
   {
     name: "Settings",
     path: "/settings",
-  }, 
+  },  
+  {
+    name: "Coupon Code",
+    path: "/couponcode",
+  },
   {
     name: "Create Alert",
     path: "/createalert",
-  },
+  }, 
   
 ];

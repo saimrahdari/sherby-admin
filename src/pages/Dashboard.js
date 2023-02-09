@@ -8,11 +8,11 @@ const Dashboard = (props) => {
   return (
     <div className="dashboard">
       {/* <TableHeader title="Pending Approvals" /> */}
-      <Table data={pendingBookings} title = "Products"/>
+      <Table data={pendingBookings} title = "Posts"/>
       <span
       
         style={{
-          color: "white",
+          color: "white", 
           textAlign: "right",
           width: "90%",
           marginTop: "-30px",

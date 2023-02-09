@@ -6,6 +6,7 @@ import UpcomingBookings from "./pages/UpcomingBookings";
 import Locations from "./pages/Locations";
 import Stylists from "./pages/Stylists";
 import Categories from "./pages/Categories.js";
+import CouponCode from "./pages/CouponCode.js";
 import Container from "./components/Container";
 import Header from "./components/Header";
 import Settings from "./pages/Settings";
@@ -33,6 +34,7 @@ function App() {
           <Route path="/branch" element={<Locations />} />
           <Route path="/stylists" element={<Stylists />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/couponcode" element={<CouponCode />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/users" element={<Users />} />

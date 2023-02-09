@@ -43,7 +43,7 @@ const PendingBookings = (props) => {
     <>
     
     <div className="pending-bookings">
-      <Table  title="Products" data={currentPosts} />
+      <Table  title="Posts" data={currentPosts} />
       <Footer postsPerPage={postsPerPage} totalPosts={pendingBookings.length} paginate={paginate} currentPage={currentPage}/>
     </div>
    

@@ -19,7 +19,7 @@ import InputField from "../components/InputField";
 import "../styles/categories.css";
 import LoadingSpinner from "./LoadingSpinner";
 
-const CategoryItem = ({ item, showModal, deletecarmodel }) => {
+const CouponItem = ({ item, showModal, deletecarmodel }) => {
   const [showSubModal, setShowSubModal] = useState(false);
   const [showCatModal, setShowCatModal] = useState(false);
   const [showsubCat, setShowsubCat] = useState(false);
@@ -37,7 +37,7 @@ const CategoryItem = ({ item, showModal, deletecarmodel }) => {
   const deleteCatData = async (id) => {
     setIsLoading(true);
     console.log("moix");
-    const ref = doc(db, "category", id);
+    const ref = doc(db, "couponcodes", id);
     try {
       const del = await deleteDoc(ref);
 
@@ -51,7 +51,7 @@ const CategoryItem = ({ item, showModal, deletecarmodel }) => {
 
   const EditCat = async (uid) => {
     setIsLoading(true);
-    const ref = doc(db, "category", uid);
+    const ref = doc(db, "couponcodes", uid);
     try {
       await updateDoc(ref, {
         name: name.trim(),
@@ -86,7 +86,7 @@ const CategoryItem = ({ item, showModal, deletecarmodel }) => {
               </div>
             </div>
           </div>
-          {isLoading ? <LoadingSpinner /> : CategoryItem}
+          {isLoading ? <LoadingSpinner /> : CouponItem}
           <div className="buttons-container">
             <FaTrash   style={{cursor:'pointer'}} onClick={() => deleteCatData (item.id)} className="icon" />
             <IoPencil
@@ -139,10 +139,10 @@ const CategoryItem = ({ item, showModal, deletecarmodel }) => {
         >
           Update
         </button>
-        {isLoading ? <LoadingSpinner /> : CategoryItem}
+        {isLoading ? <LoadingSpinner /> : CouponItem}
       </Modal>
     </>
   );
 };
 
-export default CategoryItem;
+export default CouponItem;
